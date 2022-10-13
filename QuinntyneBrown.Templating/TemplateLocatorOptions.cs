@@ -1,7 +1,6 @@
-﻿namespace QuinntyneBrown.Templating
+namespace QuinntyneBrown.Templating;
+
+public class TemplateLocatorOptions
 {
-    public class TemplateLocatorOptions
-    {
-        public string Namespace { get; set; } = string.Empty;
-    }
+    public string Namespace { get; set; } = string.Empty;
 }

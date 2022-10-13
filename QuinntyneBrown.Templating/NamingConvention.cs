@@ -1,13 +1,12 @@
-﻿namespace QuinntyneBrown.Templating
+namespace QuinntyneBrown.Templating;
+
+public enum NamingConvention
 {
-    public enum NamingConvention
-    {
-        PascalCase,
-        CamelCase,
-        SnakeCase,
-        TitleCase,
-        AllCaps,
-        KebobCase,
-        None
-    }
+    PascalCase,
+    CamelCase,
+    SnakeCase,
+    TitleCase,
+    AllCaps,
+    KebobCase,
+    None
 }

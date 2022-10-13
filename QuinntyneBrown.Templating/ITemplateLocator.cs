@@ -1,7 +1,6 @@
-﻿namespace QuinntyneBrown.Templating
+namespace QuinntyneBrown.Templating;
+
+public interface ITemplateLocator
 {
-    public interface ITemplateLocator
-    {
-        string[] Get(string filename);
-    }
+    string[] Get(string filename);
 }

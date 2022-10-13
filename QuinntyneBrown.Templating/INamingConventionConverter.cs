@@ -1,11 +1,10 @@
-﻿namespace QuinntyneBrown.Templating
+namespace QuinntyneBrown.Templating;
+
+public interface INamingConventionConverter
 {
-    public interface INamingConventionConverter
-    {
-        string Convert(NamingConvention from, NamingConvention to, string value);
+    string Convert(NamingConvention from, NamingConvention to, string value);
 
-        string Convert(NamingConvention to, string value);
+    string Convert(NamingConvention to, string value);
 
-        string Convert(NamingConvention to, string value, bool pluralize);
-    }
+    string Convert(NamingConvention to, string value, bool pluralize);
 }

@@ -1,10 +1,7 @@
-﻿using System.Collections.Generic;
+namespace QuinntyneBrown.Templating;
 
-namespace QuinntyneBrown.Templating
+public interface ITemplateProcessor
 {
-    public interface ITemplateProcessor
-    {
-        string[] Process(string[] template, IDictionary<string, object> tokens, string[] ignoreTokens = null);
-        string Process(string template, IDictionary<string, object> tokens);
-    }
+    string[] Process(string[] template, IDictionary<string, object> tokens, string[]? ignoreTokens = null);
+    string Process(string template, IDictionary<string, object> tokens);
 }

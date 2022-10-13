@@ -1,48 +1,47 @@
-﻿using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Options;
 using System.Reflection;
 
-namespace QuinntyneBrown.Templating
+namespace QuinntyneBrown.Templating;
+
+
+public class TemplateLocator : ITemplateLocator
 {
-
-    public class TemplateLocator : ITemplateLocator
+    private readonly TemplateLocatorOptions _options;
+    public TemplateLocator(IOptions<TemplateLocatorOptions> optionsAccessor)
     {
-        private readonly TemplateLocatorOptions _options;
-        public TemplateLocator(IOptions<TemplateLocatorOptions> optionsAccessor)
+        _options = optionsAccessor.Value;
+    }
+
+    public string[] Get(string name)
+    {
+        foreach (Assembly _assembly in AppDomain.CurrentDomain.GetAssemblies().Where(x => x.GetName().FullName.Contains(_options.Namespace)).Distinct())
         {
-            _options = optionsAccessor.Value;
+            var resourceName = _assembly.GetManifestResourceNames().GetResourceName(name);
+
+            if (!string.IsNullOrEmpty(resourceName))
+            {
+                return GetResource(_assembly, resourceName);
+            }
         }
 
-        public string[] Get(string name)
-        {
-            foreach (Assembly _assembly in AppDomain.CurrentDomain.GetAssemblies().Where(x => x.GetName().FullName.Contains(_options.Namespace)).Distinct())
-            {
-                var resourceName = _assembly.GetManifestResourceNames().GetResourceName(name);
+        throw new Exception("");
+    }
 
-                if (!string.IsNullOrEmpty(resourceName))
+    public string[] GetResource(Assembly assembly, string name)
+    {
+        var lines = new List<string>();
+
+        using (var stream = assembly.GetManifestResourceStream(name))
+        {
+            using (var streamReader = new StreamReader(stream))
+            {
+                string line;
+                while ((line = streamReader.ReadLine()) != null)
                 {
-                    return GetResource(_assembly, resourceName);
+                    lines.Add(line);
                 }
             }
-
-            throw new Exception("");
-        }
-
-        public string[] GetResource(Assembly assembly, string name)
-        {
-            var lines = new List<string>();
-
-            using (var stream = assembly.GetManifestResourceStream(name))
-            {
-                using (var streamReader = new StreamReader(stream))
-                {
-                    string line;
-                    while ((line = streamReader.ReadLine()) != null)
-                    {
-                        lines.Add(line);
-                    }
-                }
-                return lines.ToArray();
-            }
+            return lines.ToArray();
         }
     }
 }
